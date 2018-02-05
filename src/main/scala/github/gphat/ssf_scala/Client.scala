@@ -92,6 +92,12 @@ class Client(
     }
   }
 
+  def shutdown(): Unit = {
+    // It's pretty safe to just forcibly shutdown the executor and interrupt
+    // the running async task.
+    executor.foreach(_.shutdownNow)
+  }
+
   def startSpan(
     name: String = "unknown", tags: Map[String,String] = Map.empty, parent: Option[SSFSpan] = None,
     indicator: Boolean = false, service: String = service
@@ -114,7 +120,21 @@ class Client(
 
   def finishSpan(span: SSFSpan): Unit = {
     val finalSpan = span.withEndTimestamp(System.nanoTime)
-    queue.offer(finalSpan)
+    if(asynchronous) {
+      // Queue it up! Leave encoding for later so get we back as soon as we can.
+      if (!queue.offer(span)) {
+        val dropped = consecutiveDroppedMetrics.incrementAndGet
+        if (dropped == 1 || (dropped % consecutiveDropWarnThreshold) == 0) {
+          log.warning("Queue is full. Metric was dropped. " +
+            "Consider decreasing the defaultSampleRate or increasing the maxQueueSize."
+          )
+        }
+      }
+    } else {
+      consecutiveDroppedMetrics.set(0)
+      // Just send it.
+      send(span)
+    }
   }
 }
 
