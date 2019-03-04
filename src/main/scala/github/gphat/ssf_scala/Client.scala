@@ -9,7 +9,7 @@ import java.net.{InetSocketAddress, SocketException}
 import java.nio.ByteBuffer
 import java.nio.channels.{DatagramChannel, UnresolvedAddressException}
 import java.nio.charset.StandardCharsets
-import java.util.{LinkedList, Random}
+import java.security.SecureRandom
 import java.util.concurrent._
 import java.util.concurrent.atomic.AtomicLong
 import java.util.logging.Logger
@@ -18,7 +18,7 @@ class Client(
     hostname: String = "127.0.0.1",
     port: Int = 8128,
     service: String,
-    rng: PositiveRandom = new PositiveRandom(),
+    ids: Iterator[Long] = PositiveRandom(),
     allowExceptions: Boolean = false,
     asynchronous: Boolean = true,
     maxQueueSize: Option[Int] = None,
@@ -111,7 +111,7 @@ class Client(
       indicator: Boolean = false,
       service: String = service
   ): SSFSpan = {
-    val id = rng.nextNonNegative
+    val id = ids.next
     var sample = SSFSpan(
       id = id,
       traceId = id, // We'll pre-set this, it will be overriden if we have a parent
@@ -149,8 +149,7 @@ class Client(
   }
 }
 
-class PositiveRandom extends Random {
-  def nextNonNegative(): Int = {
-    return next(31)
-  }
+object PositiveRandom {
+  def apply(): Iterator[Long] =
+    (new SecureRandom).longs(1, Long.MaxValue).iterator().asScala.map(Long2long)
 }
