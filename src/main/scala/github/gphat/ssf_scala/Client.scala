@@ -5,43 +5,46 @@ import scala.collection.mutable.ListBuffer
 import scala.util.control.NonFatal
 import _root_.ssf.sample.SSFSpan
 import java.io.ByteArrayOutputStream
-import java.net.{InetSocketAddress,SocketException}
+import java.net.{InetSocketAddress, SocketException}
 import java.nio.ByteBuffer
-import java.nio.channels.{DatagramChannel,UnresolvedAddressException}
+import java.nio.channels.{DatagramChannel, UnresolvedAddressException}
 import java.nio.charset.StandardCharsets
-import java.util.{LinkedList,Random}
+import java.security.SecureRandom
 import java.util.concurrent._
 import java.util.concurrent.atomic.AtomicLong
 import java.util.logging.Logger
 
 class Client(
-  hostname: String = "127.0.0.1",
-  port: Int = 8128,
-  service: String,
-  rng: PositiveRandom = new PositiveRandom(),
-  allowExceptions: Boolean = false,
-  asynchronous: Boolean = true,
-  maxQueueSize: Option[Int] = None,
-  consecutiveDropWarnThreshold: Long = 1000,
-  val consecutiveDroppedMetrics: AtomicLong = new AtomicLong(0),
-  version: Byte = 0
+    hostname: String = "127.0.0.1",
+    port: Int = 8128,
+    service: String,
+    ids: Iterator[Long] = PositiveRandom(),
+    allowExceptions: Boolean = false,
+    asynchronous: Boolean = true,
+    maxQueueSize: Option[Int] = None,
+    consecutiveDropWarnThreshold: Long = 1000,
+    val consecutiveDroppedMetrics: AtomicLong = new AtomicLong(0),
+    version: Byte = 0
 ) {
   private[this] val log: Logger = Logger.getLogger(classOf[Client].getName)
 
-  val clientSocket = DatagramChannel.open.connect(new InetSocketAddress(hostname, port))
+  val clientSocket =
+    DatagramChannel.open.connect(new InetSocketAddress(hostname, port))
 
   private[ssf_scala] val queue: LinkedBlockingQueue[SSFSpan] =
-    maxQueueSize.map({
-      capacity => new LinkedBlockingQueue[SSFSpan](capacity)
-    }).getOrElse(
-      // Unbounded is kinda dangerous, but sure!
-      new LinkedBlockingQueue[SSFSpan]()
-    )
+    maxQueueSize
+      .map({ capacity =>
+        new LinkedBlockingQueue[SSFSpan](capacity)
+      })
+      .getOrElse(
+        // Unbounded is kinda dangerous, but sure!
+        new LinkedBlockingQueue[SSFSpan]()
+      )
 
   // This is an Option[Executor] to allow for NOT sending things.
   // We'll make an executor if we are running in asynchronous mode then spin up
   // the thread-works.
-  private[this] val executor: Option[ExecutorService] = if(asynchronous) {
+  private[this] val executor: Option[ExecutorService] = if (asynchronous) {
     Some(Executors.newSingleThreadExecutor(new ThreadFactory {
       override def newThread(r: Runnable): Thread = {
         val t = Executors.defaultThreadFactory.newThread(r)
@@ -57,14 +60,17 @@ class Client(
   // repeatedly polls the queue and sends the available metrics down the road.
   executor.foreach { ex =>
     val task = new Runnable {
-      def tick(): Unit = try {
-        Option(queue.take).foreach(send)
-      } catch {
-        case _: InterruptedException => Thread.currentThread.interrupt
-        case NonFatal(exception) => {
-          log.warning(s"Swallowing exception thrown while sending metric: $exception")
+      def tick(): Unit =
+        try {
+          Option(queue.take).foreach(send)
+        } catch {
+          case _: InterruptedException => Thread.currentThread.interrupt
+          case NonFatal(exception) => {
+            log.warning(
+              s"Swallowing exception thrown while sending metric: $exception"
+            )
+          }
         }
-      }
 
       def run(): Unit = {
         while (!Thread.interrupted) {
@@ -81,11 +87,11 @@ class Client(
     try {
       clientSocket.write(ByteBuffer.wrap(span.toByteArray))
     } catch {
-      case se @ (_ : SocketException | _ : UnresolvedAddressException) => {
+      case se @ (_: SocketException | _: UnresolvedAddressException) => {
         // Check if we're allowing exceptions and rethrow if so. We didn't use
         // a guard on the case because then we'd need a second case to catch
         // the !allowExceptions case!
-        if(allowExceptions) {
+        if (allowExceptions) {
           throw se
         }
       }
@@ -99,28 +105,33 @@ class Client(
   }
 
   def startSpan(
-    name: String = "unknown", tags: Map[String,String] = Map.empty, parent: Option[SSFSpan] = None,
-    indicator: Boolean = false, service: String = service
+      name: String = "unknown",
+      tags: Map[String, String] = Map.empty,
+      parent: Option[SSFSpan] = None,
+      indicator: Boolean = false,
+      service: String = service
   ): SSFSpan = {
-    val id = rng.nextNonNegative
+    val id = ids.next
     var sample = SSFSpan(
-      id=id,
-      traceId=id, // We'll pre-set this, it will be overriden if we have a parent
-      startTimestamp=System.nanoTime,
-      name=name,
-      tags=tags,
-      indicator=indicator,
-      service=service,
+      id = id,
+      traceId = id, // We'll pre-set this, it will be overriden if we have a parent
+      startTimestamp = System.nanoTime,
+      name = name,
+      tags = tags,
+      indicator = indicator,
+      service = service
     )
-    sample = parent.map({ p =>
-      sample.withTraceId(p.traceId).withParentId(p.id)
-    }).getOrElse(sample)
+    sample = parent
+      .map({ p =>
+        sample.withTraceId(p.traceId).withParentId(p.id)
+      })
+      .getOrElse(sample)
     sample
   }
 
   def finishSpan(span: SSFSpan): Unit = {
     val finalSpan = span.withEndTimestamp(System.nanoTime)
-    if(asynchronous) {
+    if (asynchronous) {
       // Queue it up! Leave encoding for later so get we back as soon as we can.
       if (!queue.offer(span)) {
         val dropped = consecutiveDroppedMetrics.incrementAndGet
@@ -138,8 +149,7 @@ class Client(
   }
 }
 
-class PositiveRandom extends Random {
- def nextNonNegative(): Int = {
-   return next(31)
- }
+object PositiveRandom {
+  def apply(): Iterator[Long] =
+    (new SecureRandom).longs(1, Long.MaxValue).iterator().asScala.map(Long2long)
 }
