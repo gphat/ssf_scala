@@ -110,7 +110,7 @@ class Client(
       name=name,
       tags=tags,
       indicator=indicator,
-      service=service,
+      service=service
     )
     sample = parent.map({ p =>
       sample.withTraceId(p.traceId).withParentId(p.id)
