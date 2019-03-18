@@ -122,18 +122,19 @@ class Client(
     val finalSpan = span.withEndTimestamp(System.nanoTime)
     if(asynchronous) {
       // Queue it up! Leave encoding for later so get we back as soon as we can.
-      if (!queue.offer(span)) {
+      if (!queue.offer(finalSpan)) {
         val dropped = consecutiveDroppedMetrics.incrementAndGet
         if (dropped == 1 || (dropped % consecutiveDropWarnThreshold) == 0) {
-          log.warning("Queue is full. Metric was dropped. " +
-            "Consider decreasing the defaultSampleRate or increasing the maxQueueSize."
+          log.warning(
+            "Queue is full. Metric was dropped. " +
+              "Consider decreasing the defaultSampleRate or increasing the maxQueueSize."
           )
         }
       }
     } else {
       consecutiveDroppedMetrics.set(0)
       // Just send it.
-      send(span)
+      send(finalSpan)
     }
   }
 }
