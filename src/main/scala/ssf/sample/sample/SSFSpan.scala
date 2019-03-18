@@ -5,8 +5,6 @@
 
 package ssf.sample
 
-
-
 /** SSFSpan is the primary unit of reporting in SSF. It embeds a set of
   * SSFSamples, as well as start/stop time stamps and a parent ID
   * (which allows assembling a span lineage for distributed tracing
@@ -70,22 +68,22 @@ package ssf.sample
   */
 @SerialVersionUID(0L)
 final case class SSFSpan(
-    version: Int = 0,
-    traceId: Long = 0L,
-    id: Long = 0L,
-    parentId: Long = 0L,
-    startTimestamp: Long = 0L,
-    endTimestamp: Long = 0L,
-    error: Boolean = false,
-    service: String = "",
+    version: _root_.scala.Int = 0,
+    traceId: _root_.scala.Long = 0L,
+    id: _root_.scala.Long = 0L,
+    parentId: _root_.scala.Long = 0L,
+    startTimestamp: _root_.scala.Long = 0L,
+    endTimestamp: _root_.scala.Long = 0L,
+    error: _root_.scala.Boolean = false,
+    service: _root_.scala.Predef.String = "",
     metrics: _root_.scala.collection.Seq[ssf.sample.SSFSample] = _root_.scala.collection.Seq.empty,
-    tags: scala.collection.immutable.Map[String, String] = scala.collection.immutable.Map.empty,
-    indicator: Boolean = false,
-    name: String = ""
+    tags: scala.collection.immutable.Map[_root_.scala.Predef.String, _root_.scala.Predef.String] = scala.collection.immutable.Map.empty,
+    indicator: _root_.scala.Boolean = false,
+    name: _root_.scala.Predef.String = ""
     ) extends scalapb.GeneratedMessage with scalapb.Message[SSFSpan] with scalapb.lenses.Updatable[SSFSpan] {
     @transient
-    private[this] var __serializedSizeCachedValue: Int = 0
-    private[this] def __computeSerializedValue(): Int = {
+    private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
+    private[this] def __computeSerializedValue(): _root_.scala.Int = {
       var __size = 0
       if (version != 0) { __size += _root_.com.google.protobuf.CodedOutputStream.computeInt32Size(1, version) }
       if (traceId != 0L) { __size += _root_.com.google.protobuf.CodedOutputStream.computeInt64Size(2, traceId) }
@@ -101,7 +99,7 @@ final case class SSFSpan(
       if (name != "") { __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(13, name) }
       __size
     }
-    final override def serializedSize: Int = {
+    final override def serializedSize: _root_.scala.Int = {
       var read = __serializedSizeCachedValue
       if (read == 0) {
         read = __computeSerializedValue()
@@ -109,7 +107,7 @@ final case class SSFSpan(
       }
       read
     }
-    def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): Unit = {
+    def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = {
       {
         val __v = version
         if (__v != 0) {
@@ -191,7 +189,7 @@ final case class SSFSpan(
       var __error = this.error
       var __service = this.service
       val __metrics = (_root_.scala.collection.immutable.Vector.newBuilder[ssf.sample.SSFSample] ++= this.metrics)
-      val __tags = (scala.collection.immutable.Map.newBuilder[String, String] ++= this.tags)
+      val __tags = (scala.collection.immutable.Map.newBuilder[_root_.scala.Predef.String, _root_.scala.Predef.String] ++= this.tags)
       var __indicator = this.indicator
       var __name = this.name
       var _done__ = false
@@ -241,25 +239,25 @@ final case class SSFSpan(
           name = __name
       )
     }
-    def withVersion(__v: Int): SSFSpan = copy(version = __v)
-    def withTraceId(__v: Long): SSFSpan = copy(traceId = __v)
-    def withId(__v: Long): SSFSpan = copy(id = __v)
-    def withParentId(__v: Long): SSFSpan = copy(parentId = __v)
-    def withStartTimestamp(__v: Long): SSFSpan = copy(startTimestamp = __v)
-    def withEndTimestamp(__v: Long): SSFSpan = copy(endTimestamp = __v)
-    def withError(__v: Boolean): SSFSpan = copy(error = __v)
-    def withService(__v: String): SSFSpan = copy(service = __v)
+    def withVersion(__v: _root_.scala.Int): SSFSpan = copy(version = __v)
+    def withTraceId(__v: _root_.scala.Long): SSFSpan = copy(traceId = __v)
+    def withId(__v: _root_.scala.Long): SSFSpan = copy(id = __v)
+    def withParentId(__v: _root_.scala.Long): SSFSpan = copy(parentId = __v)
+    def withStartTimestamp(__v: _root_.scala.Long): SSFSpan = copy(startTimestamp = __v)
+    def withEndTimestamp(__v: _root_.scala.Long): SSFSpan = copy(endTimestamp = __v)
+    def withError(__v: _root_.scala.Boolean): SSFSpan = copy(error = __v)
+    def withService(__v: _root_.scala.Predef.String): SSFSpan = copy(service = __v)
     def clearMetrics = copy(metrics = _root_.scala.collection.Seq.empty)
     def addMetrics(__vs: ssf.sample.SSFSample*): SSFSpan = addAllMetrics(__vs)
     def addAllMetrics(__vs: TraversableOnce[ssf.sample.SSFSample]): SSFSpan = copy(metrics = metrics ++ __vs)
     def withMetrics(__v: _root_.scala.collection.Seq[ssf.sample.SSFSample]): SSFSpan = copy(metrics = __v)
     def clearTags = copy(tags = scala.collection.immutable.Map.empty)
-    def addTags(__vs: (String, String)*): SSFSpan = addAllTags(__vs)
-    def addAllTags(__vs: TraversableOnce[(String, String)]): SSFSpan = copy(tags = tags ++ __vs)
-    def withTags(__v: scala.collection.immutable.Map[String, String]): SSFSpan = copy(tags = __v)
-    def withIndicator(__v: Boolean): SSFSpan = copy(indicator = __v)
-    def withName(__v: String): SSFSpan = copy(name = __v)
-    def getFieldByNumber(__fieldNumber: Int): scala.Any = {
+    def addTags(__vs: (_root_.scala.Predef.String, _root_.scala.Predef.String)*): SSFSpan = addAllTags(__vs)
+    def addAllTags(__vs: TraversableOnce[(_root_.scala.Predef.String, _root_.scala.Predef.String)]): SSFSpan = copy(tags = tags ++ __vs)
+    def withTags(__v: scala.collection.immutable.Map[_root_.scala.Predef.String, _root_.scala.Predef.String]): SSFSpan = copy(tags = __v)
+    def withIndicator(__v: _root_.scala.Boolean): SSFSpan = copy(indicator = __v)
+    def withName(__v: _root_.scala.Predef.String): SSFSpan = copy(name = __v)
+    def getFieldByNumber(__fieldNumber: _root_.scala.Int): scala.Any = {
       (__fieldNumber: @_root_.scala.unchecked) match {
         case 1 => {
           val __t = version
@@ -322,7 +320,7 @@ final case class SSFSpan(
         case 13 => _root_.scalapb.descriptors.PString(name)
       }
     }
-    override def toString: String = _root_.scalapb.TextFormat.printToUnicodeString(this)
+    def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
     def companion = ssf.sample.SSFSpan
 }
 
@@ -332,42 +330,42 @@ object SSFSpan extends scalapb.GeneratedMessageCompanion[ssf.sample.SSFSpan] {
     require(__fieldsMap.keys.forall(_.getContainingType() == javaDescriptor), "FieldDescriptor does not match message type.")
     val __fields = javaDescriptor.getFields
     ssf.sample.SSFSpan(
-      __fieldsMap.getOrElse(__fields.get(0), 0).asInstanceOf[Int],
-      __fieldsMap.getOrElse(__fields.get(1), 0L).asInstanceOf[Long],
-      __fieldsMap.getOrElse(__fields.get(2), 0L).asInstanceOf[Long],
-      __fieldsMap.getOrElse(__fields.get(3), 0L).asInstanceOf[Long],
-      __fieldsMap.getOrElse(__fields.get(4), 0L).asInstanceOf[Long],
-      __fieldsMap.getOrElse(__fields.get(5), 0L).asInstanceOf[Long],
-      __fieldsMap.getOrElse(__fields.get(6), false).asInstanceOf[Boolean],
-      __fieldsMap.getOrElse(__fields.get(7), "").asInstanceOf[String],
+      __fieldsMap.getOrElse(__fields.get(0), 0).asInstanceOf[_root_.scala.Int],
+      __fieldsMap.getOrElse(__fields.get(1), 0L).asInstanceOf[_root_.scala.Long],
+      __fieldsMap.getOrElse(__fields.get(2), 0L).asInstanceOf[_root_.scala.Long],
+      __fieldsMap.getOrElse(__fields.get(3), 0L).asInstanceOf[_root_.scala.Long],
+      __fieldsMap.getOrElse(__fields.get(4), 0L).asInstanceOf[_root_.scala.Long],
+      __fieldsMap.getOrElse(__fields.get(5), 0L).asInstanceOf[_root_.scala.Long],
+      __fieldsMap.getOrElse(__fields.get(6), false).asInstanceOf[_root_.scala.Boolean],
+      __fieldsMap.getOrElse(__fields.get(7), "").asInstanceOf[_root_.scala.Predef.String],
       __fieldsMap.getOrElse(__fields.get(8), Nil).asInstanceOf[_root_.scala.collection.Seq[ssf.sample.SSFSample]],
       __fieldsMap.getOrElse(__fields.get(9), Nil).asInstanceOf[_root_.scala.collection.Seq[ssf.sample.SSFSpan.TagsEntry]].map(ssf.sample.SSFSpan._typemapper_tags.toCustom)(_root_.scala.collection.breakOut),
-      __fieldsMap.getOrElse(__fields.get(10), false).asInstanceOf[Boolean],
-      __fieldsMap.getOrElse(__fields.get(11), "").asInstanceOf[String]
+      __fieldsMap.getOrElse(__fields.get(10), false).asInstanceOf[_root_.scala.Boolean],
+      __fieldsMap.getOrElse(__fields.get(11), "").asInstanceOf[_root_.scala.Predef.String]
     )
   }
   implicit def messageReads: _root_.scalapb.descriptors.Reads[ssf.sample.SSFSpan] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
       require(__fieldsMap.keys.forall(_.containingMessage == scalaDescriptor), "FieldDescriptor does not match message type.")
       ssf.sample.SSFSpan(
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).map(_.as[Int]).getOrElse(0),
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(2).get).map(_.as[Long]).getOrElse(0L),
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(3).get).map(_.as[Long]).getOrElse(0L),
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(4).get).map(_.as[Long]).getOrElse(0L),
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(5).get).map(_.as[Long]).getOrElse(0L),
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(6).get).map(_.as[Long]).getOrElse(0L),
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(7).get).map(_.as[Boolean]).getOrElse(false),
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(8).get).map(_.as[String]).getOrElse(""),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).map(_.as[_root_.scala.Int]).getOrElse(0),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(2).get).map(_.as[_root_.scala.Long]).getOrElse(0L),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(3).get).map(_.as[_root_.scala.Long]).getOrElse(0L),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(4).get).map(_.as[_root_.scala.Long]).getOrElse(0L),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(5).get).map(_.as[_root_.scala.Long]).getOrElse(0L),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(6).get).map(_.as[_root_.scala.Long]).getOrElse(0L),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(7).get).map(_.as[_root_.scala.Boolean]).getOrElse(false),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(8).get).map(_.as[_root_.scala.Predef.String]).getOrElse(""),
         __fieldsMap.get(scalaDescriptor.findFieldByNumber(10).get).map(_.as[_root_.scala.collection.Seq[ssf.sample.SSFSample]]).getOrElse(_root_.scala.collection.Seq.empty),
         __fieldsMap.get(scalaDescriptor.findFieldByNumber(11).get).map(_.as[_root_.scala.collection.Seq[ssf.sample.SSFSpan.TagsEntry]]).getOrElse(_root_.scala.collection.Seq.empty).map(ssf.sample.SSFSpan._typemapper_tags.toCustom)(_root_.scala.collection.breakOut),
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(12).get).map(_.as[Boolean]).getOrElse(false),
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(13).get).map(_.as[String]).getOrElse("")
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(12).get).map(_.as[_root_.scala.Boolean]).getOrElse(false),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(13).get).map(_.as[_root_.scala.Predef.String]).getOrElse("")
       )
     case _ => throw new RuntimeException("Expected PMessage")
   }
   def javaDescriptor: _root_.com.google.protobuf.Descriptors.Descriptor = SampleProto.javaDescriptor.getMessageTypes.get(1)
   def scalaDescriptor: _root_.scalapb.descriptors.Descriptor = SampleProto.scalaDescriptor.messages(1)
-  def messageCompanionForFieldNumber(__number: Int): _root_.scalapb.GeneratedMessageCompanion[_] = {
+  def messageCompanionForFieldNumber(__number: _root_.scala.Int): _root_.scalapb.GeneratedMessageCompanion[_] = {
     var __out: _root_.scalapb.GeneratedMessageCompanion[_] = null
     (__number: @_root_.scala.unchecked) match {
       case 10 => __out = ssf.sample.SSFSample
@@ -378,23 +376,23 @@ object SSFSpan extends scalapb.GeneratedMessageCompanion[ssf.sample.SSFSpan] {
   lazy val nestedMessagesCompanions: Seq[_root_.scalapb.GeneratedMessageCompanion[_]] = Seq[_root_.scalapb.GeneratedMessageCompanion[_]](
     _root_.ssf.sample.SSFSpan.TagsEntry
   )
-  def enumCompanionForFieldNumber(__fieldNumber: Int): _root_.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__fieldNumber)
+  def enumCompanionForFieldNumber(__fieldNumber: _root_.scala.Int): _root_.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__fieldNumber)
   lazy val defaultInstance = ssf.sample.SSFSpan(
   )
   @SerialVersionUID(0L)
   final case class TagsEntry(
-      key: String = "",
-      value: String = ""
+      key: _root_.scala.Predef.String = "",
+      value: _root_.scala.Predef.String = ""
       ) extends scalapb.GeneratedMessage with scalapb.Message[TagsEntry] with scalapb.lenses.Updatable[TagsEntry] {
       @transient
-      private[this] var __serializedSizeCachedValue: Int = 0
-      private[this] def __computeSerializedValue(): Int = {
+      private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
+      private[this] def __computeSerializedValue(): _root_.scala.Int = {
         var __size = 0
         if (key != "") { __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(1, key) }
         if (value != "") { __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(2, value) }
         __size
       }
-      final override def serializedSize: Int = {
+      final override def serializedSize: _root_.scala.Int = {
         var read = __serializedSizeCachedValue
         if (read == 0) {
           read = __computeSerializedValue()
@@ -402,7 +400,7 @@ object SSFSpan extends scalapb.GeneratedMessageCompanion[ssf.sample.SSFSpan] {
         }
         read
       }
-      def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): Unit = {
+      def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = {
         {
           val __v = key
           if (__v != "") {
@@ -436,9 +434,9 @@ object SSFSpan extends scalapb.GeneratedMessageCompanion[ssf.sample.SSFSpan] {
             value = __value
         )
       }
-      def withKey(__v: String): TagsEntry = copy(key = __v)
-      def withValue(__v: String): TagsEntry = copy(value = __v)
-      def getFieldByNumber(__fieldNumber: Int): scala.Any = {
+      def withKey(__v: _root_.scala.Predef.String): TagsEntry = copy(key = __v)
+      def withValue(__v: _root_.scala.Predef.String): TagsEntry = copy(value = __v)
+      def getFieldByNumber(__fieldNumber: _root_.scala.Int): scala.Any = {
         (__fieldNumber: @_root_.scala.unchecked) match {
           case 1 => {
             val __t = key
@@ -457,7 +455,7 @@ object SSFSpan extends scalapb.GeneratedMessageCompanion[ssf.sample.SSFSpan] {
           case 2 => _root_.scalapb.descriptors.PString(value)
         }
       }
-      override def toString: String = _root_.scalapb.TextFormat.printToUnicodeString(this)
+      def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
       def companion = ssf.sample.SSFSpan.TagsEntry
   }
   
@@ -467,49 +465,49 @@ object SSFSpan extends scalapb.GeneratedMessageCompanion[ssf.sample.SSFSpan] {
       require(__fieldsMap.keys.forall(_.getContainingType() == javaDescriptor), "FieldDescriptor does not match message type.")
       val __fields = javaDescriptor.getFields
       ssf.sample.SSFSpan.TagsEntry(
-        __fieldsMap.getOrElse(__fields.get(0), "").asInstanceOf[String],
-        __fieldsMap.getOrElse(__fields.get(1), "").asInstanceOf[String]
+        __fieldsMap.getOrElse(__fields.get(0), "").asInstanceOf[_root_.scala.Predef.String],
+        __fieldsMap.getOrElse(__fields.get(1), "").asInstanceOf[_root_.scala.Predef.String]
       )
     }
     implicit def messageReads: _root_.scalapb.descriptors.Reads[ssf.sample.SSFSpan.TagsEntry] = _root_.scalapb.descriptors.Reads{
       case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
         require(__fieldsMap.keys.forall(_.containingMessage == scalaDescriptor), "FieldDescriptor does not match message type.")
         ssf.sample.SSFSpan.TagsEntry(
-          __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).map(_.as[String]).getOrElse(""),
-          __fieldsMap.get(scalaDescriptor.findFieldByNumber(2).get).map(_.as[String]).getOrElse("")
+          __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).map(_.as[_root_.scala.Predef.String]).getOrElse(""),
+          __fieldsMap.get(scalaDescriptor.findFieldByNumber(2).get).map(_.as[_root_.scala.Predef.String]).getOrElse("")
         )
       case _ => throw new RuntimeException("Expected PMessage")
     }
     def javaDescriptor: _root_.com.google.protobuf.Descriptors.Descriptor = ssf.sample.SSFSpan.javaDescriptor.getNestedTypes.get(0)
     def scalaDescriptor: _root_.scalapb.descriptors.Descriptor = ssf.sample.SSFSpan.scalaDescriptor.nestedMessages(0)
-    def messageCompanionForFieldNumber(__number: Int): _root_.scalapb.GeneratedMessageCompanion[_] = throw new MatchError(__number)
+    def messageCompanionForFieldNumber(__number: _root_.scala.Int): _root_.scalapb.GeneratedMessageCompanion[_] = throw new MatchError(__number)
     lazy val nestedMessagesCompanions: Seq[_root_.scalapb.GeneratedMessageCompanion[_]] = Seq.empty
-    def enumCompanionForFieldNumber(__fieldNumber: Int): _root_.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__fieldNumber)
+    def enumCompanionForFieldNumber(__fieldNumber: _root_.scala.Int): _root_.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__fieldNumber)
     lazy val defaultInstance = ssf.sample.SSFSpan.TagsEntry(
     )
     implicit class TagsEntryLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, ssf.sample.SSFSpan.TagsEntry]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, ssf.sample.SSFSpan.TagsEntry](_l) {
-      def key: _root_.scalapb.lenses.Lens[UpperPB, String] = field(_.key)((c_, f_) => c_.copy(key = f_))
-      def value: _root_.scalapb.lenses.Lens[UpperPB, String] = field(_.value)((c_, f_) => c_.copy(value = f_))
+      def key: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.key)((c_, f_) => c_.copy(key = f_))
+      def value: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.value)((c_, f_) => c_.copy(value = f_))
     }
     final val KEY_FIELD_NUMBER = 1
     final val VALUE_FIELD_NUMBER = 2
-    implicit val keyValueMapper: _root_.scalapb.TypeMapper[ssf.sample.SSFSpan.TagsEntry, (String, String)] =
-      _root_.scalapb.TypeMapper[ssf.sample.SSFSpan.TagsEntry, (String, String)](__m => (__m.key, __m.value))(__p => ssf.sample.SSFSpan.TagsEntry(__p._1, __p._2))
+    implicit val keyValueMapper: _root_.scalapb.TypeMapper[ssf.sample.SSFSpan.TagsEntry, (_root_.scala.Predef.String, _root_.scala.Predef.String)] =
+      _root_.scalapb.TypeMapper[ssf.sample.SSFSpan.TagsEntry, (_root_.scala.Predef.String, _root_.scala.Predef.String)](__m => (__m.key, __m.value))(__p => ssf.sample.SSFSpan.TagsEntry(__p._1, __p._2))
   }
   
   implicit class SSFSpanLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, ssf.sample.SSFSpan]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, ssf.sample.SSFSpan](_l) {
-    def version: _root_.scalapb.lenses.Lens[UpperPB, Int] = field(_.version)((c_, f_) => c_.copy(version = f_))
-    def traceId: _root_.scalapb.lenses.Lens[UpperPB, Long] = field(_.traceId)((c_, f_) => c_.copy(traceId = f_))
-    def id: _root_.scalapb.lenses.Lens[UpperPB, Long] = field(_.id)((c_, f_) => c_.copy(id = f_))
-    def parentId: _root_.scalapb.lenses.Lens[UpperPB, Long] = field(_.parentId)((c_, f_) => c_.copy(parentId = f_))
-    def startTimestamp: _root_.scalapb.lenses.Lens[UpperPB, Long] = field(_.startTimestamp)((c_, f_) => c_.copy(startTimestamp = f_))
-    def endTimestamp: _root_.scalapb.lenses.Lens[UpperPB, Long] = field(_.endTimestamp)((c_, f_) => c_.copy(endTimestamp = f_))
-    def error: _root_.scalapb.lenses.Lens[UpperPB, Boolean] = field(_.error)((c_, f_) => c_.copy(error = f_))
-    def service: _root_.scalapb.lenses.Lens[UpperPB, String] = field(_.service)((c_, f_) => c_.copy(service = f_))
+    def version: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Int] = field(_.version)((c_, f_) => c_.copy(version = f_))
+    def traceId: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Long] = field(_.traceId)((c_, f_) => c_.copy(traceId = f_))
+    def id: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Long] = field(_.id)((c_, f_) => c_.copy(id = f_))
+    def parentId: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Long] = field(_.parentId)((c_, f_) => c_.copy(parentId = f_))
+    def startTimestamp: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Long] = field(_.startTimestamp)((c_, f_) => c_.copy(startTimestamp = f_))
+    def endTimestamp: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Long] = field(_.endTimestamp)((c_, f_) => c_.copy(endTimestamp = f_))
+    def error: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.error)((c_, f_) => c_.copy(error = f_))
+    def service: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.service)((c_, f_) => c_.copy(service = f_))
     def metrics: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.collection.Seq[ssf.sample.SSFSample]] = field(_.metrics)((c_, f_) => c_.copy(metrics = f_))
-    def tags: _root_.scalapb.lenses.Lens[UpperPB, scala.collection.immutable.Map[String, String]] = field(_.tags)((c_, f_) => c_.copy(tags = f_))
-    def indicator: _root_.scalapb.lenses.Lens[UpperPB, Boolean] = field(_.indicator)((c_, f_) => c_.copy(indicator = f_))
-    def name: _root_.scalapb.lenses.Lens[UpperPB, String] = field(_.name)((c_, f_) => c_.copy(name = f_))
+    def tags: _root_.scalapb.lenses.Lens[UpperPB, scala.collection.immutable.Map[_root_.scala.Predef.String, _root_.scala.Predef.String]] = field(_.tags)((c_, f_) => c_.copy(tags = f_))
+    def indicator: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.indicator)((c_, f_) => c_.copy(indicator = f_))
+    def name: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.name)((c_, f_) => c_.copy(name = f_))
   }
   final val VERSION_FIELD_NUMBER = 1
   final val TRACE_ID_FIELD_NUMBER = 2
@@ -524,5 +522,5 @@ object SSFSpan extends scalapb.GeneratedMessageCompanion[ssf.sample.SSFSpan] {
   final val INDICATOR_FIELD_NUMBER = 12
   final val NAME_FIELD_NUMBER = 13
   @transient
-  private val _typemapper_tags: _root_.scalapb.TypeMapper[ssf.sample.SSFSpan.TagsEntry, (String, String)] = implicitly[_root_.scalapb.TypeMapper[ssf.sample.SSFSpan.TagsEntry, (String, String)]]
+  private val _typemapper_tags: _root_.scalapb.TypeMapper[ssf.sample.SSFSpan.TagsEntry, (_root_.scala.Predef.String, _root_.scala.Predef.String)] = implicitly[_root_.scalapb.TypeMapper[ssf.sample.SSFSpan.TagsEntry, (_root_.scala.Predef.String, _root_.scala.Predef.String)]]
 }
