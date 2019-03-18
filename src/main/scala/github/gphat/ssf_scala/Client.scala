@@ -10,6 +10,7 @@ import java.nio.ByteBuffer
 import java.nio.channels.{DatagramChannel,UnresolvedAddressException}
 import java.nio.charset.StandardCharsets
 import java.util.{LinkedList,Random}
+import java.time.Instant
 import java.util.concurrent._
 import java.util.concurrent.atomic.AtomicLong
 import java.util.logging.Logger
@@ -104,13 +105,13 @@ class Client(
   ): SSFSpan = {
     val id = rng.nextNonNegative
     var sample = SSFSpan(
-      id=id,
-      traceId=id, // We'll pre-set this, it will be overriden if we have a parent
-      startTimestamp=System.nanoTime,
-      name=name,
-      tags=tags,
-      indicator=indicator,
-      service=service,
+      id = id,
+      traceId = id, // We'll pre-set this, it will be overriden if we have a parent
+      startTimestamp = nanosSinceEpoch,
+      name = name,
+      tags = tags,
+      indicator = indicator,
+      service = service
     )
     sample = parent.map({ p =>
       sample.withTraceId(p.traceId).withParentId(p.id)
@@ -119,8 +120,8 @@ class Client(
   }
 
   def finishSpan(span: SSFSpan): Unit = {
-    val finalSpan = span.withEndTimestamp(System.nanoTime)
-    if(asynchronous) {
+    val finalSpan = span.withEndTimestamp(nanosSinceEpoch)
+    if (asynchronous) {
       // Queue it up! Leave encoding for later so get we back as soon as we can.
       if (!queue.offer(span)) {
         val dropped = consecutiveDroppedMetrics.incrementAndGet
@@ -135,6 +136,13 @@ class Client(
       // Just send it.
       send(span)
     }
+  }
+
+  private val NanosPerSecond = 1000000000
+
+  private def nanosSinceEpoch: Long = {
+    val now = Instant.now
+    now.getEpochSecond * NanosPerSecond + now.getNano
   }
 }
 
